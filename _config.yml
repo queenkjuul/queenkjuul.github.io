@@ -1,1 +1,16 @@
-theme: jekyll-theme-midnight
+# theme: jekyll-theme-midnight
+remote_theme: christianezeani/panthera-jekyll
+
+title: Julie Hill
+subtitle: Design, IT, Aspiring Programmer
+description: A personal home for tech-related blogs and projects
+
+menu:
+  - text: juliehill.rocks
+    link: http://juliehill.rocks
+    icon: fas fa-guitar
+
+social_icons:
+  - name: GitHub
+    link: https://github.com/queenkjuul
+    icon: fab fa-github-square
