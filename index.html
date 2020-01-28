@@ -2,7 +2,7 @@
     <html>
     <head>
         <meta charset="UTF-8">
-        <title>Boldly Going where no GRUB has gone before</title>
+        <title>QueenKJuul///Julie Hill</title>
         
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
@@ -21,32 +21,12 @@
         
     </head>
     <body class="vscode-light">
-        <h1 id="boldly-going-where-no-grub-has-gone-before">Boldly Going where no GRUB has gone before</h1>
-<p>One of my earliest computer tinkerings, beyond just aimlessly clicking things I found in system folders when I could barely read, was installing Ubuntu on the old family computer. It took a good deal of effort to convince my parents that one, <em>it</em> would not destroy the machine, and two, that <em>I</em> would not destroy the machine. In the end, though, the machine survived and the experience kicked off a lifelong curiosity with Linux, and led to the timeline we inhabit where I have written this post.</p>
-<p>The reason I fell in love with Linux was the endless customization. As a kid, doing even menial things like installing updates or fighting with drivers was endlessly fun when you had <a href="https://www.omgubuntu.co.uk/2018/09/wobbly-windows-new-libanimation-linux-library">wobbly windows</a> and five thousand icon sets to choose from. The possibilities were endless, and they extended not just to the desktop UI itself but to GRUB, where I would spend hours configuring, GIMPing, and rebooting until I got all of the text to perfectly align with my static background image to make the all-text menu look like a proper 2005 graphical menu--naturally, with Tux in the corner.</p>
-<p>Nowadays GRUB2 is VASTLY more complicated than the old GRUB of my youth, so much so that you no longer just pull up your <code>menu.lst</code> in your favorite editor (or the only one you know how to use) and get going. One of the features crammed into GRUB2 is the <code>GRUB_INIT_TUNE</code> config option, which, it turns out, does just what you might suspect: it plays a little ditty on system init.</p>
-<p>As I have gone about teaching myself networking, I have been using <em>Star Trek</em>-themed names for my systems. My VPS has the hostname <code>ds9</code>. My gaming rig is <code>battlebridge</code>. My VPN is <code>subspace</code>, my phone <code>tricorder</code>, you're getting the picture.</p>
-<p>So, naturally, I had to make <code>GRUB_INIT_TUNE</code> play <em>Star Trek</em>.</p>
-<h2 id="the-easy-part">The easy part</h2>
-<p>I knew from the get go that this was going to be a lot easier if I could find musical notation for the Star Trek theme, or even better, a MIDI file of the theme. Luckily, the internet has a penchant for being an occasionally beautiful, magical place, and no sooner had I typed in &quot;star trek midi&quot; than I found the adorable <a href="http://www.vic-fontaine.com">vic-fontaine.com</a>, a glorious throwback to Web 1.0 complete with all the Star Trek MIDI files your heart could desire.</p>
-<p><img src="vic.png" alt="vic-fontaine.com"></p>
-<p>In another stroke of luck, I came across someone's <a href="https://gitlab.com/lukasfink1/midi2grub">handy little python script, midi2grub</a>, which could do all of what I thought would be the hard part--actually translating something resembling a musical score into a proper <code>GRUB_INIT_TUNE</code> config. Now all that was left was <em>the easy part</em>, the part where I would just pop open the MIDI file into some editor, slice out the bit I wanted, maybe change the key/shift the pitch to sit nicely in that warm midrangey tone of a state-of-the-art hi-fi BIOS Piezo buzzer.</p>
-<h2 id="the-hard-part">the hard part</h2>
-<p>As it turns out, simply popping the MIDI file into an editor was less simple than I thought. While I am a musician, my abilities lie in the land of rock guitar--a land where the peak of musical technology happened somewhere around 1968. MIDI, then, is largely a mystery to me yet, much less editing it on a computer. I of course had no application to do such a thing already installed on my Windows machine, and my Linux machine was only just set up, with nothing going.</p>
-<p>Much to my chagrin, though, audio was not working out-of-the-box on my fresh Ubuntu 19.10 installation. The reason for my audio headaches was that just days prior I had installed a Sound Blaster Z soundcard, and while this did great things on the Windows side like bring back EAX for retro games and better echo cancellation for Discord, it was, for whatever reason, causing all audio in Linux to come out incredibly quiet and nastily garbled.</p>
-<p>I spent probably close to an hour fiddling with <code>alsa-mixer</code> and <code>qjackctl</code> and the default Xfce pulseaudio panels trying anything and everything that I thought had even the slightest chance of working, but nothing did.</p>
-<p>Nearing my wits end, I had the thought &quot;well this is a fresh installation and Ubuntu literally makes a product for this so let's try that.&quot; I downloaded Ubuntu Studio and installed it. Yet again, I could not get audio. This time, though, I had the handy Ubuntu Studio Controls app which got me squared away. In what seems like an oversight for someone with decade-plus experience in both Linux and audio, my Creative card was showing as 3 devices in Linux and I was using the wrong one, apparently.</p>
-<p>Working with MIDI files was harder than I expected on Ubuntu Studio, too. Unfortunately, I am writing this a while after doing all the work, and the precise details of what all I attempted are now fuzzy. I remember having to hunt down soundfont files and move them around at some point, and I remember installing just about any MIDI package that looked promising. Simply playing a MIDI file was possible out of the box, but getting actual MIDI sequencers to properly render instruments and play them to my speakers was something else entirely.</p>
-<p>I ran through every MIDI app I could find--timidity, rosegarden, muse, musescore--and each time I either had to spend several minutes just to get audio output at all, or simply found that I was too unfamiliar with the ins and outs of MIDI to actually slice up the track the way I wanted. The easy part was not going well.</p>
-<p>Enter LMMS. I had actually used LMMS on Windows way back in my youth, albeit briefly. LMMS with its plain multitrack interface and classic piano-roll sequencing, immediately made sense to me. I isolated the track I wanted, made some slight edits to shorten it up without making it sound wrong, and ended up with a short 5-second clip of a Star Trek jingle. For those familiar, it is the very first fanfare you hear in the intro from <em>The Next Generation</em>.</p>
-<p><img src="lmms.png" alt="lmms">
-<em>[if you squint, it almost looks like the Enterprise]</em></p>
-<p>LMMS had one fatal flaw. It could not export MIDI. I felt so betrayed to have come so far and yet failed. My initial searches told me that while MIDI export was a planned feature for LMMS, it had not yet been implemented.</p>
-<p>Fortunately, somebody out there <em>had</em> actually written the code to convert an LMMS project into MIDI. It just wasn't merged into the app yet. Cue the <a href="https://www.lynxwave.com/LMMStoMIDI/LMMStoMIDIConverter.html">LMMS to MIDI Converter</a>, the website that made my dreams come true. The site converted my stripped-down single-instrument two-bar LMMS project into a plain old MIDI file with no issues. Then MIDI2GRUB gave me a <code>GRUB_INIT_TUNE</code> line that I could test out.</p>
-<p>It took a bit of tweaking yet to get it to sound exactly how I wanted. It turns out that you can't quite just arbitrarily set the GRUB &quot;tempo&quot; value to whatever you want, I am guessing whatever drives your speaker in BIOS can only switch tones so fast, or something. With a little bit of playing around, though, I got it exactly how I wanted it, and boy howdy does it make my day seeing the United Federation of Planets UEFI logo come up, followed by the little TNG Jingle. A night well spent, as far as I'm concerned.</p>
-<p>I want to also shout out <a href="https://launchpad.net/grub-customizer">GRUB Customizer</a> as it makes setting up GRUB to your liking a lot easier. I use it any time I'm setting up a dual-boot as it simplifies the installtion of custom GRUB themes, making it an effortless click-and-forget process that GRUB doesn't really provide on its own. I'm working on a matching United Federation of Planets GRUB2 theme, so keep an eye out.</p>
-<p>You can add the tune via grub-customizer in General&gt;Advanced Settings, or you can just tack the following line onto the end of your <code>/etc/default/grub</code> file then run <code>grub-mkconfig</code>.</p>
-<p><code>GRUB_INIT_TUNE=&quot;20000 584 144 736 48 1048 288 984 96 784 63 0 1 656 64 880 63 0 1 1176 192&quot;</code></p>
+        <h1 id="queenkjuuljulie-hill">QueenKJuul///Julie Hill</h1>
+<ul>
+<li><em>Star Trek</em> for GRUB: <a href="enterprise.html">the harrowing tale</a> | <a href="https://github.com/queenkjuul/grubtrek">cut to the chase</a></li>
+<li><a href="https://github.com/queenkjuul/ahk">autohotkey</a>: forcing Windows to do what I want</li>
+<li><a href="http://juliehill.rocks">juliehill.rocks</a>: like this, but less tech</li>
+</ul>
 
     </body>
     </html>
