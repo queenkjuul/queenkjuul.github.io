@@ -8,7 +8,7 @@ description: A personal home for tech-related blogs and projects
 menu:
   - text: juliehill.rocks
     link: http://juliehill.rocks
-    icon: fas fa-guitar
+    icon: fas fa-external-link-alt
 
 social_icons:
   - name: GitHub
