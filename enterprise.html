@@ -1,6 +1,6 @@
 --- 
 layout: default
---- 
+---  
 <!DOCTYPE html>
     <html>
     <head>
@@ -32,7 +32,7 @@ layout: default
 <p>So, naturally, I had to make <code>GRUB_INIT_TUNE</code> play <em>Star Trek</em>.</p>
 <h2 id="the-easy-part">The easy part</h2>
 <p>I knew from the get go that this was going to be a lot easier if I could find musical notation for the Star Trek theme, or even better, a MIDI file of the theme. Luckily, the internet has a penchant for being an occasionally beautiful, magical place, and no sooner had I typed in &quot;star trek midi&quot; than I found the adorable <a href="http://www.vic-fontaine.com">vic-fontaine.com</a>, a glorious throwback to Web 1.0 complete with all the Star Trek MIDI files your heart could desire.</p>
-<p><img src="vic.png" alt="vic-fontaine.com"></p>
+<p><img src="vic.png" alt="vic-fontaine.com" style="width:100%;"></p>
 <p>In another stroke of luck, I came across someone's <a href="https://gitlab.com/lukasfink1/midi2grub">handy little python script, midi2grub</a>, which could do all of what I thought would be the hard part--actually translating something resembling a musical score into a proper <code>GRUB_INIT_TUNE</code> config. Now all that was left was <em>the easy part</em>, the part where I would just pop open the MIDI file into some editor, slice out the bit I wanted, maybe change the key/shift the pitch to sit nicely in that warm midrangey tone of a state-of-the-art hi-fi BIOS Piezo buzzer.</p>
 <h2 id="the-hard-part">the hard part</h2>
 <p>As it turns out, simply popping the MIDI file into an editor was less simple than I thought. While I am a musician, my abilities lie in the land of rock guitar--a land where the peak of musical technology happened somewhere around 1968. MIDI, then, is largely a mystery to me yet, much less editing it on a computer. I of course had no application to do such a thing already installed on my Windows machine, and my Linux machine was only just set up, with nothing going.</p>
