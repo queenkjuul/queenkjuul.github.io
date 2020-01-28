@@ -14,3 +14,6 @@ social_icons:
   - name: GitHub
     link: https://github.com/queenkjuul
     icon: fab fa-github-square
+  - name: Twitch
+    link: http://twitch.tv/queenkjuul
+    icon: fab fa-twitch
