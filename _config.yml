@@ -6,6 +6,8 @@ subtitle: Design, IT, Aspiring Programmer
 description: A personal home for tech-related blogs and projects
 
 menu:
+  - text: home
+    link: http://juliehill.codes
   - text: juliehill.rocks
     link: http://juliehill.rocks
     icon: fas fa-external-link-alt
