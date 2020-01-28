@@ -9,6 +9,9 @@ menu:
   - text: juliehill.rocks
     link: http://juliehill.rocks
     icon: fas fa-external-link-alt
+  - text: ghost town radio
+    link: http://ghosttownradiosucks.com
+    icon: fas fa-guitar
 
 social_icons:
   - name: GitHub
