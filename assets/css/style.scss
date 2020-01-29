@@ -28,6 +28,11 @@ a {
     }
 }
 
+img {
+    width: 80%;
+    margin: auto;
+}
+
 .pan-layout-content {
     background-color: #333;
 }
@@ -51,10 +56,22 @@ a {
 
     &__middle {
         font-family: 'Roboto', sans-serif;
+        color: rgb(85, 207, 255);
     }
 
     &__bottom {
         color: #fff;
     }
 
+}
+
+.entry {
+    font-size: 1rem;
+}
+
+.intro {
+    color: rgb(85, 207, 255);
+    font-size: 1.4rem;
+    text-align: center;
+    border-bottom: 1px solid #999;
 }
