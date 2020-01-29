@@ -2,7 +2,7 @@
 --- 
 
 @import "panthera-jekyll";
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap');
 
 :root {
     --pan-layout-left-background-color: rgba(224, 102, 200, 0.5);
@@ -26,4 +26,13 @@ a {
     &:hover {
         text-decoration: underline;
     }
+}
+
+.pan-layout-content {
+    background-color: #333;
+}
+
+.pan-layout-footer {
+    background-color: #333;
+    border-top: 1px solid #999;
 }
