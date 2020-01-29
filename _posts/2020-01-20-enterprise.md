@@ -21,7 +21,7 @@ I knew from the get go that this was going to be a lot easier if I could find mu
 
 ![vic-fontaine.com](https://queenkjuul.github.io/images/vicFull.png)
 
-In another stroke of luck, I came across someone's [handy little python script, midi2grub](https://gitlab.com/lukasfink1/midi2grub), which could do all of what I thought would be the hard part--actually translating something resembling a musical score into a proper `GRUB_INIT_TUNE` config. Now all that was left was *the easy part*, the part where I would just pop open the MIDI file into some editor, slice out the bit I wanted, maybe change the key/shift the pitch to sit nicely in that warm midrangey tone of a state-of-the-art hi-fi BIOS Piezo buzzer. 
+In another stroke of luck, I came across someone's [handy little python script, midi2grub](https://gitlab.com/lukasfink1/midi2grub), which could do all of what I thought would be the hard part--actually translating something resembling a musical score into a proper `GRUB_INIT_TUNE` config. Now all that was left was *the easy part*, the part where I would just pop open the MIDI file into some editor, slice out the bit I wanted, and maybe change the key/shift the pitch to sit nicely in that warm midrangey tone of a state-of-the-art BIOS Piezo buzzer. 
 
 ## the hard part
 
@@ -57,3 +57,5 @@ You can add the tune via grub-customizer in General>Advanced Settings, or you ca
 `GRUB_INIT_TUNE="20000 584 144 736 48 1048 288 984 96 784 63 0 1 656 64 880 63 0 1 1176 192"`
 
 [give it a listen](https://youtu.be/967npdBLhJ0)
+
+\V/_ live long and prosper, loves
