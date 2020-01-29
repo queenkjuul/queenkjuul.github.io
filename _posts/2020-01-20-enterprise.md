@@ -53,3 +53,5 @@ I want to also shout out [GRUB Customizer](https://launchpad.net/grub-customizer
 You can add the tune via grub-customizer in General>Advanced Settings, or you can just tack the following line onto the end of your `/etc/default/grub` file then run `grub-mkconfig`. 
 
 `GRUB_INIT_TUNE="20000 584 144 736 48 1048 288 984 96 784 63 0 1 656 64 880 63 0 1 1176 192"`
+
+![https://img.youtube.com/vi/967npdBLhJ0/0.jpg](https://www.youtube.com/watch?v=967npdBLhJ0)
