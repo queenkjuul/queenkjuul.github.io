@@ -39,7 +39,7 @@ I ran through every MIDI app I could find--timidity, rosegarden, muse, musescore
 
 Enter LMMS. I had actually used LMMS on Windows way back in my youth, albeit briefly. LMMS with its plain multitrack interface and classic piano-roll sequencing, immediately made sense to me. I isolated the track I wanted, made some slight edits to shorten it up without making it sound wrong, and ended up with a short 5-second clip of a Star Trek jingle. For those familiar, it is the very first fanfare you hear in the intro from *The Next Generation*. 
 
-![lmms](https://github.com/queenkjuul/queenkjuul.github.io/images/lmms.png)
+![lmms](https://queenkjuul.github.io/images/lmms.png)
 *[if you squint, it almost looks like the Enterprise]*
 
 LMMS had one fatal flaw. It could not export MIDI. I felt so betrayed to have come so far and yet failed. My initial searches told me that while MIDI export was a planned feature for LMMS, it had not yet been implemented. 
