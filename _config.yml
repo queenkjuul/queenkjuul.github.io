@@ -24,3 +24,6 @@ social_icons:
   - name: Twitch
     link: http://twitch.tv/queenkjuul
     icon: fab fa-twitch
+  - name: email
+    link: mailto:julie.hill@pm.me
+    icon: fas fa-envelope
