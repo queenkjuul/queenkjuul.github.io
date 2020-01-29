@@ -54,4 +54,4 @@ You can add the tune via grub-customizer in General>Advanced Settings, or you ca
 
 `GRUB_INIT_TUNE="20000 584 144 736 48 1048 288 984 96 784 63 0 1 656 64 880 63 0 1 1176 192"`
 
-![https://img.youtube.com/vi/967npdBLhJ0/0.jpg](https://www.youtube.com/watch?v=967npdBLhJ0)
+![https://img.youtube.com/vi/967npdBLhJ0/sddefault.jpg](https://www.youtube.com/watch?v=967npdBLhJ0)
