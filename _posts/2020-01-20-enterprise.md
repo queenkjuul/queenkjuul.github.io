@@ -19,7 +19,7 @@ So, naturally, I had to make `GRUB_INIT_TUNE` play *Star Trek*.
 
 I knew from the get go that this was going to be a lot easier if I could find musical notation for the Star Trek theme, or even better, a MIDI file of the theme. Luckily, the internet has a penchant for being an occasionally beautiful, magical place, and no sooner had I typed in "star trek midi" than I found the adorable [vic-fontaine.com](http://www.vic-fontaine.com), a glorious throwback to Web 1.0 complete with all the Star Trek MIDI files your heart could desire. 
 
-![vic-fontaine.com](queenkjuul.github.io/images/vic.png)
+![vic-fontaine.com](http://queenkjuul.github.io/images/vic.png?s=400)
 
 In another stroke of luck, I came across someone's [handy little python script, midi2grub](https://gitlab.com/lukasfink1/midi2grub), which could do all of what I thought would be the hard part--actually translating something resembling a musical score into a proper `GRUB_INIT_TUNE` config. Now all that was left was *the easy part*, the part where I would just pop open the MIDI file into some editor, slice out the bit I wanted, maybe change the key/shift the pitch to sit nicely in that warm midrangey tone of a state-of-the-art hi-fi BIOS Piezo buzzer. 
 
