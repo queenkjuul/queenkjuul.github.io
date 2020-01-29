@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The UEFIinal Frontier"
+title: "The UEFInal Frontier"
 ---
 
 # Boldly Going where no GRUB has gone before
