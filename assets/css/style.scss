@@ -44,5 +44,17 @@ a {
 
 .pan-layout-left {
     color: rgb(85, 207, 255);
-    font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+
+    &__top {
+        font-family: 'Roboto Condensed', 'Roboto', sans-serif;
+    }
+
+    &__middle {
+        font-family: 'Roboto', sans-serif;
+    }
+
+    &__bottom {
+        color: #fff;
+    }
+
 }
