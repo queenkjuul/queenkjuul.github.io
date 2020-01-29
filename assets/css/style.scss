@@ -28,15 +28,15 @@ a {
     }
 }
 
-img {
-    width: 50%;
-    margin-left: auto;
-    margin-right: auto;
-    margin: auto;
-}
 
 .pan-layout-content {
     background-color: #333;
+    img {
+        width: 67%;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
 }
 
 .pan-layout-footer {
