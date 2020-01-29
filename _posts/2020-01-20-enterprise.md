@@ -25,7 +25,7 @@ In another stroke of luck, I came across someone's [handy little python script, 
 
 ## the hard part
 
-As it turns out, simply popping the MIDI file into an editor was less simple than I thought. While I am a musician, my abilities lie in the land of rock guitar--a land where the peak of musical technology happened somewhere around 1968. MIDI, then, is largely a mystery to me yet, much less editing it on a computer. I of course had no application to do such a thing already installed on my Windows machine, and my Linux machine was only just set up, with nothing going. 
+As it turns out, simply popping the MIDI file into an editor was less simple than I thought. While I am a musician, my abilities lie in the land of rock guitar--a land where the peak of musical technology happened somewhere around 1968. MIDI, then, is largely a mystery to me, much less editing it on a computer. I of course had no application to do such a thing already installed on my Windows machine, and my Linux machine was only just set up, with nothing going. 
 
 Much to my chagrin, though, audio was not working out-of-the-box on my fresh Ubuntu 19.10 installation. The reason for my audio headaches was that just days prior I had installed a Sound Blaster Z soundcard, and while this did great things on the Windows side like bring back EAX for retro games and better echo cancellation for Discord, it was, for whatever reason, causing all audio in Linux to come out incredibly quiet and nastily garbled. 
 
