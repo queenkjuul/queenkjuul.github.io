@@ -2,8 +2,24 @@
 --- 
 
 @import "panthera-jekyll";
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
 
 :root {
     --pan-layout-left-background-color: rgba(224, 102, 200, 0.5);
     --pan-layout-left-background-image: url(http://juliehill.rocks/uploads/2020/01/chi.jpg);
+}
+
+html, body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #444;
+    color: #fff;
+}
+
+a {
+    &, &:link, &:visited {
+        color: rgb(224, 102, 200);
+    }
+    &:hover {
+        text-decoration: underline;
+    }
 }
