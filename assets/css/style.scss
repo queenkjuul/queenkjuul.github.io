@@ -89,3 +89,24 @@ code {
     text-align: left;
     border-bottom: 5px solid #999;
 }
+
+.resume {
+    h1 {
+        color: rgb(224, 102, 200);
+        text-align: center;
+    }
+
+    h2 {
+        background-color: rgb(224, 102, 200);
+        color: #fff;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+        border-bottom: 1px rgb(224, 102, 200);
+    }
+
+    .tagline {
+        text-align: center;
+    }
+}

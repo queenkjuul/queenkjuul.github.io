@@ -8,6 +8,8 @@ description: A personal home for tech-related blogs and projects
 menu:
   - text: home
     link: http://juliehill.codes
+  - text: resumé
+    link: http://juliehill.codes/resume
   - text: site repo
     link: https://github.com/queenkjuul/queenkjuul.github.io
   - text: ghost town radio
