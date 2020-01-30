@@ -1,1 +1,2749 @@
-<html><head><meta content="text/html; charset=UTF-8" http-equiv="content-type"><style type="text/css">@import url('https://themes.googleusercontent.com/fonts/css?kit=XGMkxXUZTA64h2imyzu79g');ol{margin:0;padding:0}table td,table th{padding:0}.c1{background-color:#1b1d1e;padding-top:0pt;padding-bottom:0pt;line-height:1.5;orphans:2;widows:2;text-align:left}.c0{color:#f8f8f2;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10.5pt;font-family:"Roboto Mono";font-style:normal}.c6{color:#f92672;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10.5pt;font-family:"Roboto Mono";font-style:normal}.c2{color:#e6db74;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10.5pt;font-family:"Roboto Mono";font-style:normal}.c9{color:#7e8e91;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:10.5pt;font-family:"Roboto Mono";font-style:normal}.c14{color:#000000;font-weight:400;text-decoration:none;vertical-align:baseline;font-size:11pt;font-family:"Roboto Mono";font-style:normal}.c16{padding-top:0pt;padding-bottom:0pt;line-height:1.15;orphans:2;widows:2;text-align:left}.c10{font-size:10.5pt;font-family:"Roboto Mono";color:#a6e22e;font-weight:400}.c5{font-size:10.5pt;font-family:"Roboto Mono";color:#66d9ef;font-weight:400}.c4{font-size:10.5pt;font-family:"Roboto Mono";color:#f8f8f2;font-weight:400}.c7{font-size:10.5pt;font-family:"Roboto Mono";color:#f92672;font-weight:400}.c8{font-size:10.5pt;font-family:"Roboto Mono";color:#e6db74;font-weight:400}.c12{font-size:10.5pt;font-family:"Roboto Mono";color:#ae81ff;font-weight:400}.c13{background-color:#ffffff;max-width:468pt;padding:72pt 72pt 72pt 72pt}.c15{text-decoration:none;vertical-align:baseline;font-style:normal}.c11{font-style:italic}.c3{height:11pt}.title{padding-top:0pt;color:#000000;font-size:26pt;padding-bottom:3pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}.subtitle{padding-top:0pt;color:#666666;font-size:15pt;padding-bottom:16pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}li{color:#000000;font-size:11pt;font-family:"Arial"}p{margin:0;color:#000000;font-size:11pt;font-family:"Arial"}h1{padding-top:20pt;color:#000000;font-size:20pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h2{padding-top:18pt;color:#000000;font-size:16pt;padding-bottom:6pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h3{padding-top:16pt;color:#434343;font-size:14pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h4{padding-top:14pt;color:#666666;font-size:12pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h5{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;orphans:2;widows:2;text-align:left}h6{padding-top:12pt;color:#666666;font-size:11pt;padding-bottom:4pt;font-family:"Arial";line-height:1.15;page-break-after:avoid;font-style:italic;orphans:2;widows:2;text-align:left}</style></head><body class="c13"><p class="c1"><span class="c9">#!/bin/bash</span></p><p class="c1"><span class="c9">#</span></p><p class="c1"><span class="c9"># THIS SCRIPT DOES NOT WORK OR DO ANYTHING PARTICULARLY USEFUL</span></p><p class="c1"><span class="c9"># It was written to automate the setup process for a particular proprietary</span></p><p class="c1"><span class="c9"># web interface for a particular employer. This script has been scrubbed of</span></p><p class="c1"><span class="c9"># anything referring to said employer, but is otherwise unmodified</span></p><p class="c1"><span class="c9">#</span></p><p class="c1"><span class="c9"># iossetup.sh</span></p><p class="c1"><span class="c9"># a script to set up the iOS interfaces from start to finish with minimal interaction from you</span></p><p class="c1"><span class="c9"># by Julie Hill</span></p><p class="c1"><span class="c9"># live long and prosper, loves</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># This is a combinbation of the iPhone and iPad scripts. It should be able to detect which</span></p><p class="c1"><span class="c9"># interfaces are installed, and inform the user about that. The setup is all the same,</span></p><p class="c1"><span class="c9"># though, so this is really just an improved version of the old scripts, with any</span></p><p class="c1"><span class="c9"># device-specific wordage removed, plus moving most of the code into functions</span></p><p class="c1"><span class="c9"># for better readability and portability.</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Declaring some variables instead of hardcoding directories like</span></p><p class="c1"><span class="c9"># the totally real programmer that I really am in real life for real</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">IPAD_PKG=com.apple.ipad.pkg</span></p><p class="c1"><span class="c0">IPHONE_PKG=com.apple.iphone.pkg</span></p><p class="c1"><span class="c0">DOCDIR=/Library/WebServer/Documents/</span></p><p class="c1"><span class="c0">DOWNLOAD_SITE=http://apple.com/download</span></p><p class="c1"><span class="c0">APACHE_DIR=/etc/apache2</span></p><p class="c1"><span class="c0">PHPFILE=/etc/php.ini</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9">#functions defined below this line</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">set_env</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This function will attempt to determine which iOS interfaces are installed, if any.</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># If there are none, the script will exit after opening the download site</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Detecting Environment...&quot;</span></p><p class="c1"><span class="c0">&nbsp; </span></p><p class="c1"><span class="c0">&nbsp; &nbsp;check_ipad</span></p><p class="c1"><span class="c0">&nbsp; </span></p><p class="c1"><span class="c0">&nbsp; &nbsp;check_iphone</span></p><p class="c1"><span class="c0">&nbsp; </span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;[ $IPHONE </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;1&#39;</span><span class="c4">&nbsp;] </span><span class="c7">&amp;&amp;</span><span class="c4">&nbsp;[ $IPAD </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;1&#39;</span><span class="c4">&nbsp;]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;No apple iOS Interfaces seem to be installed.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;They need to be installed prior to running this script&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Sending you to </span><span class="c4">$DOWNLOAD_SITE</span><span class="c2">&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 3</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;open $DOWNLOAD_SITE</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">check_ipad</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Check OS list of isntalled packages for apple iPad interface</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># if missing, inform user</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># in either case, update script variables for set_env</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Checking if iPad interface is installed...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;pkgutil --packages </span><span class="c7">|</span><span class="c4">&nbsp;grep -q $IPAD_PKG</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;check_documents </span><span class="c8">&#39;ipad&#39;</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;IPAD=0</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\n\niPad Interface does not appear to be installed.\n&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;IPAD=1</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 2</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">check_iphone</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Check OS list of isntalled packages for apple iPhone interface</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># if missing, inform user</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># in either case, update script variables for set_env</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Checking if iPhone interface is installed...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;pkgutil --packages </span><span class="c7">|</span><span class="c4">&nbsp;grep -q $IPHONE_PKG</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;check_documents </span><span class="c8">&#39;iphone&#39;</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;IPHONE=0</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\n\niPad Interface does not appear to be installed.\n&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;IPHONE=1</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 2</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">check_documents</span><span class="c0">&nbsp;() {</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This looks to see if the iPad/iPhone interface is *properly* installed</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># because if these files are missing, we cannot proceed.</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">&nbsp; &nbsp;DEV=$1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c8">&quot;Checking for </span><span class="c4">$DEV</span><span class="c2">&nbsp;WebServer Documents...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;[ </span><span class="c7">-f</span><span class="c4">&nbsp;$DOCDIR/$DEV/enable_ssl.php ] </span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">return</span><span class="c0">&nbsp;0 &nbsp; &nbsp; &nbsp; </span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Did not find the </span><span class="c4">$DEV</span><span class="c2">&nbsp;WebServer Documents&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Are you sure the </span><span class="c4">$DEV</span><span class="c2">&nbsp;interface is installed?&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;If the interface was previously installed, the documents&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;may have been overwritten, e.g. by an OS Update&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;You may wish to install the interface package again&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">return</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">backup_httpd</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Self explanatory, really, but we need to keep an unaltered copy of this file just in case</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Backing up httpd.conf...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo cp $APACHE_DIR/httpd.conf $APACHE_DIR/httpd.conf.default</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">return</span><span class="c0">&nbsp;0</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nError backing up httpd.conf&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Perhaps we do not have sudo privileges?&quot;</span><span class="c0">.</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">enable_ssl</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Not to be confused with actually running enable_ssl.php in the finalize_ssl function</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Poor choice of name, but what are you gonna do</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This simply uncomments the ssl_module line in httpd.conf</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Enabling Apache SSL Module...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo sed -i .bak -e </span><span class="c8">&#39;/ssl_module/s/^#*//g&#39;</span><span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nCould not enable ssl_module in httpd.conf&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">enable_php</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This function will attempt to determine whether we are working with PHP5 (&lt;10.12) or PHP7 (&gt;=10.12)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># We will use this determination again later, when looking in php.ini for the mysql socket</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Then, we uncomment the php$_module line in httpd.conf</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Enabling PHP in httpd.conf...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;grep -q php5_module $APACHE_DIR/httpd.conf</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Appears to be PHP5/Sierra&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;PHP=5</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo sed -i .bak -e </span><span class="c8">&#39;/php5_module/s/^#*//g&#39;</span><span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;Failed to enable php5_module in httpd.conf&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">elif</span><span class="c4">&nbsp;grep -q php7_module $APACHE_DIR/httpd.conf</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Appears to PHP7/High Sierra+&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;PHP=7</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo sed -i .bak -e </span><span class="c8">&#39;/php7_module/s/^#*//g&#39;</span><span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;Failed to enable php7_module in httpd.conf&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;Failed to enable PHP in httpd.conf&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">backup_php</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Self explanatory backing up of php.ini</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This is technically redundant as the subsequent use of &#39;sed -i .bak&#39; will create more backups</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># But this will be an untouched backup, the &#39;sed&#39;s will overwrite their own backups afaik</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Backing up php.ini...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo cp $PHPFILE $PHPFILE.default</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nError backing up php.ini&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Perhaps we do not have sudo privileges?&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">fetch_timezone</span><span class="c0">&nbsp;{</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Attempt to automatically determine timezone from system</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;TIMEZONE=</span><span class="c8">$(sudo systemsetup -gettimezone </span><span class="c7">|</span><span class="c2">&nbsp;awk -F &quot; &quot; &#39;{print $3}&#39;)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Script detected </span><span class="c12">\&quot;</span><span class="c4">$TIMEZONE</span><span class="c12">\&quot;</span><span class="c2">&nbsp;as the system timezone. Is this correct? (Y/N)&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">read</span><span class="c0">&nbsp;ENTRY</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">while</span><span class="c4">&nbsp;[ </span><span class="c7">-z</span><span class="c4">&nbsp;$ENTRY ]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">do</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Please answer Y/N&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">read</span><span class="c0">&nbsp;ENTRY</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;ENTRY = </span><span class="c8">$(echo &quot;</span><span class="c4">$ENTRY</span><span class="c8">&quot; </span><span class="c7">|</span><span class="c2">&nbsp;tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;[ $ENTRY </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;y&#39;</span><span class="c4">&nbsp;] </span><span class="c7">||</span><span class="c4">&nbsp;[ $ENTRY </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;yes&#39;</span><span class="c4">&nbsp;]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span><span class="c2">&#39;y&#39;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5 c15">break</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">elif</span><span class="c4">&nbsp;[ $ENTRY </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;n&#39;</span><span class="c4">&nbsp;] </span><span class="c7">||</span><span class="c4">&nbsp;[ $ENTRY </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;no&#39;</span><span class="c4">&nbsp;]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span><span class="c2">&#39;n&#39;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5 c15">break</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span><span class="c2">&quot;&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">done</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;[ $ENTRY </span><span class="c7">==</span><span class="c4">&nbsp;</span><span class="c8">&#39;n&#39;</span><span class="c4">&nbsp;]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Please type in a custom timezone to use.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;If you are unsure, a list can be found at:&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot; &nbsp; &nbsp; https://www.php.net/manual/en/timezones.php&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Your timezone SHOULD NOT INCLUDE QUOTES and should be in the format&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot; &nbsp; &nbsp; Country/City&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;For example, America/Chicago&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">read</span><span class="c0">&nbsp;TIMEZONE</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">while</span><span class="c4">&nbsp;[ </span><span class="c7">-z</span><span class="c4">&nbsp;$TIMEZONE ]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">do</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Please enter the timezone without quotes&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">read</span><span class="c0">&nbsp;TIMEZONE</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">done</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;Proceeding with timezone </span><span class="c12">\&quot;</span><span class="c4">$TIMEZONE</span><span class="c12">\&quot;</span><span class="c2">&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;TIMEZONE=</span><span class="c12">\&quot;</span><span class="c4">$TIMEZONE</span><span class="c12 c15">\&quot;</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">setSocket7</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span><span class="c7">&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&#39;pdo_mysql.default_socket=/tmp/mysql.sock&#39;</span><span class="c4">&nbsp;</span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c0">&nbsp; &nbsp;sudo mv tempfile $PHPFILE</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">setSocket5</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span><span class="c7">&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&#39;mysql.default_socket=/tmp/mysql.sock&#39;</span><span class="c4">&nbsp;</span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c0">&nbsp; &nbsp;sudo mv tempfile $PHPFILE</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">setTimezone</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span><span class="c7">&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;date.timezone = </span><span class="c4">$TIMEZONE</span><span class="c8">&quot;</span><span class="c4">&nbsp;</span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span><span class="c7">&gt;&gt;</span><span class="c0">&nbsp;tempfile</span></p><p class="c1"><span class="c0">&nbsp; &nbsp;sudo sudo mv tempfile $PHPFILE</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">update_php</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># This is my goofy workaround for setting the default socket and timezone</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># because I spent a stupid amount of time trying to get &#39;sed&#39; to play nice with</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># quotes and slashes but had zero luck so here&#39;s my silly way of dealing with it</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># first, we count how many lines are in php.ini</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LC=</span><span class="c8">$(wc -l </span><span class="c4">$PHPFILE</span><span class="c8">&nbsp;</span><span class="c7">|</span><span class="c2">&nbsp;awk -F &quot; &quot; &#39;{print $1}&#39;)</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># then we find the line number that contains the socket assignment</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Finding mysql.default_socket in php.ini...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LINE=</span><span class="c8">$(grep -n -m 1 &#39;mysql.default_socket=&#39; </span><span class="c4">$PHPFILE</span><span class="c8">&nbsp;</span><span class="c7">|</span><span class="c2">&nbsp;awk -F &quot;:&quot; &#39;{print $1}&#39;)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># we set this variable to be the number of lines after the above line</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LINE2=</span><span class="c8">$((LC</span><span class="c7">-</span><span class="c2">LINE))</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># then, counterintutively, we comment out that line (we do not care if it already is,</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># because if we prepend a second semicolon, php is not going to care)</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;sudo sed -i .bak -e </span><span class="c8">&#39;/mysql.default_socket=/s/^/;/g&#39;</span><span class="c0">&nbsp;$PHPFILE</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># Now for the goofy bit. We are going to cut the php.ini file at the</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># mysql.default_socket line that we just commented. Then, we will write a whole new line</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># that has the correct socket value. Then, we will append the remainder of the php.ini file</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># back to that file, so that the resulting file is a complete php.ini with the correct value</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># For exception handling, using a function for these steps so they can be tested with ifs</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Setting default socket for mysql...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;PHP=7</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;setSocket7</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nError setting mysql socket. You can proceed manually&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;by appending &#39;/tmp/mysql.sock&#39; to the end of line </span><span class="c4">$LINE</span><span class="c2">&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;in </span><span class="c4">$PHPFILE</span><span class="c2">, then also setting the timezone and running&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;sudo php ~/enable_ssl.php&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">elif</span><span class="c4">&nbsp;PHP=5</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;setSocket5</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nError setting mysql socket. You can proceed manually&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;by appending &#39;/tmp/mysql.sock&#39; to the end of line </span><span class="c4">$LINE</span><span class="c2">&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;in </span><span class="c4">$PHPFILE</span><span class="c2">, then also setting the timezone and running&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;sudo php ~/enable_ssl.php&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nProblem setting default socket. You might want to proceed manually&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;To do so, open </span><span class="c4">$PHPFILE</span><span class="c8">&nbsp;by either running &#39;sudo nano </span><span class="c4">$PHPFILE</span><span class="c2">&#39;&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;sudo code </span><span class="c4">$PHPFILE</span><span class="c2">&nbsp;(if using VS Code)&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;or sudo open </span><span class="c4">$PHPFILE</span><span class="c2">&nbsp;(to use system default editor)&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c9"># repeating the process for the timezone</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;Finding date.timezone in php.ini...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LINE=</span><span class="c8">$(grep -n -m 1 &#39;date.timezone =&#39; </span><span class="c4">$PHPFILE</span><span class="c8">&nbsp;</span><span class="c7">|</span><span class="c2">&nbsp;awk -F &quot;:&quot; &#39;{print $1}&#39;)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LC=</span><span class="c8">$(wc -l </span><span class="c4">$PHPFILE</span><span class="c8">&nbsp;</span><span class="c7">|</span><span class="c2">&nbsp;awk -F &quot; &quot; &#39;{print $1}&#39;)</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;LINE2=</span><span class="c8">$((LC</span><span class="c7">-</span><span class="c2">LINE))</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;sudo sed -i .bak -e </span><span class="c8">&#39;/date.timezone =/s/^/;/g&#39;</span><span class="c0">&nbsp;$PHPFILE</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c8">&quot;Setting Timezone as </span><span class="c4">$TIMEZONE</span><span class="c2">&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;setTimezone</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c7">then</span><span class="c0">&nbsp; &nbsp;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nOK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nProblem setting time zone. You might want to proceed manually&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c8">&quot;To do so, append </span><span class="c4">$TIMEZONE</span><span class="c8">&nbsp;to line </span><span class="c4">$LINE</span><span class="c8">&nbsp;in </span><span class="c4">$PHPFILE</span><span class="c2">&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;then proceed with sudo ~/enable_ssl.php&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">restart_apache</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-n </span><span class="c2">&quot;Restarting Apache...&quot;</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo apachectl restart</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;OK.&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nProblem encountered restarting Apache. You might want to try\nrestarting it manually&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;by running:&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;sudo apachectl restart&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">finalize_ssl</span><span class="c0">&nbsp;() {</span></p><p class="c1"><span class="c0">&nbsp; &nbsp;DEV=$1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\nLaunching enable_ssl.php...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;sudo php $DOCDIR/$DEV/enable_ssl.php</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;SSL Enabled&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">else</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Running php enable_ssl.php failed&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;You can try and run it manually. All configuration up to this point&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;has been saved. Default files are stored next to their original locations&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;with either *.default or *.bak suffixes&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Exiting...&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span><span class="c5">exit</span><span class="c0">&nbsp;1</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c5 c11">function</span><span class="c4">&nbsp;</span><span class="c10">test_interface</span><span class="c0">&nbsp;{</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\n\nAt this point the interface should be configured, as long as nothing went wrong&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;Attempting to open the interface...&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp;sleep 5</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">if</span><span class="c4">&nbsp;[ $IPAD </span><span class="c7">=</span><span class="c4">&nbsp;0 ] </span><span class="c7">&amp;&amp;</span><span class="c4">&nbsp;[ $IPHONE </span><span class="c7">==</span><span class="c4">&nbsp;0 ]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span><span class="c2">&quot;http://localhost/ipad&quot;</span></p><p class="c1"><span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 3</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span><span class="c2">&quot;http://localhost/iphone&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">elif</span><span class="c4">&nbsp;[ $IPAD </span><span class="c7">==</span><span class="c4">&nbsp;0 ] </span><span class="c7">&amp;&amp;</span><span class="c4">&nbsp;[ $IPHONE </span><span class="c7">==</span><span class="c4">&nbsp;1 ]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span><span class="c2">&quot;http://localhost/ipad&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c7">elif</span><span class="c4">&nbsp;[ $IPAD </span><span class="c7">==</span><span class="c4">&nbsp;1 ] </span><span class="c7">&amp;&amp;</span><span class="c4">&nbsp;[ $IPHONE </span><span class="c7">==</span><span class="c4">&nbsp;0 ]</span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span><span class="c2">&quot;http://localhost/iphone&quot;</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;</span><span class="c6">fi</span></p><p class="c1"><span class="c0">}</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Actual execution sequence below this line</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># using `sudo echo` in an attempt to get superuser rights and keep them through the script</span></p><p class="c1"><span class="c9"># note: when running via curl from the utils server, the wrapper script should have already</span></p><p class="c1"><span class="c9"># handled this.</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c4">sudo </span><span class="c5">echo</span><span class="c4">&nbsp;</span><span class="c2">&quot;apple iPad Interface Configuration Script&quot;</span></p><p class="c1"><span class="c5">echo</span><span class="c4">&nbsp;-e </span><span class="c2">&quot;\n&quot;</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># first things first, we&#39;re gonna check to see if the iPad interface is installed</span></p><p class="c1"><span class="c9"># if it is not, we will open apple.com/download and put a message in the terminal</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">set_env</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Now, we&#39;re gonna start actually setting it up</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">backup_httpd</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># This is where the fun begins...</span></p><p class="c1"><span class="c9"># We&#39;re gonna start uncommenting lines from the config files</span></p><p class="c1"><span class="c9"># Becuase I am a super good programmer, I am using variables for the lines to uncomment</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># First up is httpd.conf</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">enable_ssl</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># in this block, we will also set a variable to determine whether or not we are using</span></p><p class="c1"><span class="c9"># PHP 5 (&lt;Sierra) or PHP 7 (&gt;Sierra). This is a surprise tool that will help us later</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">enable_php</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Now on to php.ini</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">backup_php</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Now we need to actually update php.ini</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">fetch_timezone</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">update_php</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Now we need to restart Apache</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">restart_apache</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># Run enable_ssl.php to wrap things up</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c7">if</span><span class="c4">&nbsp;[ $IPAD</span><span class="c7">==</span><span class="c4">0 ] </span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;finalize_ssl </span><span class="c2">&#39;ipad&#39;</span></p><p class="c1"><span class="c7">elif</span><span class="c4">&nbsp;[ $IPHONE</span><span class="c7">==</span><span class="c4">0 ] </span><span class="c7">;</span><span class="c4">&nbsp;</span><span class="c6">then</span></p><p class="c1"><span class="c4">&nbsp; &nbsp;finalize_ssl </span><span class="c2">&#39;iphone&#39;</span></p><p class="c1"><span class="c6">fi</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c9"># That SHOULD be it.</span></p><p class="c1"><span class="c9"># TODO: Ask for and update iPad docs with DB name (if not apple)</span></p><p class="c1 c3"><span class="c0"></span></p><p class="c1"><span class="c0">test_interface</span></p><p class="c3 c16"><span class="c14"></span></p></body></html>
+---
+layout: default
+---
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type">
+<style type="text/css">
+
+@import url('https://themes.googleusercontent.com/fonts/css?kit=XGMkxXUZTA64h2imyzu79g');
+
+ol{
+    margin:0;
+    padding:0;
+}
+
+table td,table th{
+    padding:0
+}
+
+.c1{
+    background-color:#1b1d1e;
+    padding-top:0pt;
+    padding-bottom:0pt;
+    line-height:1.5;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+.c0{
+    color:#f8f8f2;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    font-style:normal
+}
+
+.c6{
+    color:#f92672;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    font-style:normal
+}
+
+.c2{
+    color:#e6db74;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    font-style:normal
+}
+
+.comment{
+    color:#7e8e91;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    font-style:normal
+}
+
+.c14{
+    color:#000000;
+    font-weight:400;
+    text-decoration:none;
+    vertical-align:baseline;
+    font-size:11pt;
+    font-family:"Terminus", "Roboto Mono";
+    font-style:normal
+}
+
+.c16{
+    padding-top:0pt;
+    padding-bottom:0pt;
+    line-height:1.15;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+.c10{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#a6e22e;
+    font-weight:400
+}
+
+.c5{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#66d9ef;
+    font-weight:400
+}
+
+.c4{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#f8f8f2;
+    font-weight:400
+}
+
+.c7{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#f92672;
+    font-weight:400
+}
+
+.c8{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#e6db74;
+    font-weight:400
+}
+
+.c12{
+    font-size:10.5pt;
+    font-family:"Terminus", "Roboto Mono";
+    color:#ae81ff;
+    font-weight:400
+}
+
+.c13{
+    background-color:#ffffff;
+}
+
+.c15{
+    text-decoration:none;
+    vertical-align:baseline;
+    font-style:normal
+}
+
+.c11{
+    font-style:italic
+}
+
+.c3{
+    height:11pt
+}
+
+.title{
+    padding-top:0pt;
+    color:#000000;
+    font-size:26pt;
+    padding-bottom:3pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+.subtitle{
+    padding-top:0pt;
+    color:#666666;
+    font-size:15pt;
+    padding-bottom:16pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+li{
+    color:#000000;
+    font-size:11pt;
+    font-family:"Arial"
+}
+
+p{
+    margin:0;
+    color:#000000;
+    font-size:11pt;
+    font-family:"Arial"
+}
+
+h1{
+    padding-top:20pt;
+    color:#000000;
+    font-size:20pt;
+    padding-bottom:6pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+h2{
+    padding-top:18pt;
+    color:#000000;
+    font-size:16pt;
+    padding-bottom:6pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+h3{
+    padding-top:16pt;
+    color:#434343;
+    font-size:14pt;
+    padding-bottom:4pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+h4{
+    padding-top:14pt;
+    color:#666666;
+    font-size:12pt;
+    padding-bottom:4pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+h5{
+    padding-top:12pt;
+    color:#666666;
+    font-size:11pt;
+    padding-bottom:4pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+h6{
+    padding-top:12pt;
+    color:#666666;
+    font-size:11pt;
+    padding-bottom:4pt;
+    font-family:"Arial";
+    line-height:1.15;
+    page-break-after:avoid;
+    font-style:italic;
+    orphans:2;
+    widows:2;
+    text-align:left
+}
+
+</style>
+</head>
+
+<body class="c13">
+    <p class="c1">
+        <span class="comment">#!/bin/bash</span>
+    </p>
+    <p class="c1">
+        <span class="comment">#</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># THIS SCRIPT DOES NOT WORK OR DO ANYTHING PARTICULARLY USEFUL</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># It was written to automate the setup process for a particular proprietary</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># web interface for a particular employer. This script has been scrubbed of</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># anything referring to said employer, but is otherwise unmodified</span>
+    </p>
+    <p class="c1">
+        <span class="comment">#</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># iossetup.sh</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># a script to set up the iOS interfaces from start to finish with minimal interaction from you</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># by Julie Hill</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># live long and prosper, loves</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="comment"># This is a combinbation of the iPhone and iPad scripts. It should be able to detect which</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># interfaces are installed, and inform the user about that. The setup is all the same,</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># though, so this is really just an improved version of the old scripts, with any</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># device-specific wordage removed, plus moving most of the code into functions</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># for better readability and portability.</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Declaring some variables instead of hardcoding directories like</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># the totally real programmer that I really am in real life for real</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">IPAD_PKG=com.apple.ipad.pkg</span>
+    </p>
+    <p class="c1">
+        <span class="c0">IPHONE_PKG=com.apple.iphone.pkg</span>
+    </p>
+    <p class="c1">
+        <span class="c0">DOCDIR=/Library/WebServer/Documents/</span>
+    </p>
+    <p class="c1">
+        <span class="c0">DOWNLOAD_SITE=http://apple.com/download</span>
+    </p>
+    <p class="c1">
+        <span class="c0">APACHE_DIR=/etc/apache2</span>
+    </p>
+    <p class="c1">
+        <span class="c0">PHPFILE=/etc/php.ini</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment">#functions defined below this line</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">set_env</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This function will attempt to determine which iOS interfaces are installed, if any.</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># If there are none, the script will exit after opening the download site</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1"> &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;Detecting Environment...&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; </span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;check_ipad</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; </span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;check_iphone</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; </span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ $IPHONE </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;1&#39;</span>
+        <span class="c4">&nbsp;] </span>
+        <span class="c7">&amp;&amp;</span>
+        <span class="c4">&nbsp;[ $IPAD </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;1&#39;</span>
+        <span class="c4">&nbsp;]</span>
+        <span class="c7">;</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;No apple iOS Interfaces seem to be installed.&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;They need to be installed prior to running this script&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;Sending you to </span>
+        <span class="c4">$DOWNLOAD_SITE</span>
+        <span class="c2">&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 3</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;open $DOWNLOAD_SITE</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;Exiting...&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">check_ipad</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Check OS list of isntalled packages for apple iPad interface</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># if missing, inform user</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># in either case, update script variables for set_env</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;Checking if iPad interface is installed...&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;pkgutil --packages </span>
+        <span class="c7">|</span>
+        <span class="c4">&nbsp;grep -q $IPAD_PKG</span>
+        <span class="c7">;</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;OK.&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;check_documents </span>
+        <span class="c8">&#39;ipad&#39;</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;IPAD=0</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;\n\niPad Interface does not appear to be installed.\n&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;IPAD=1</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 2</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">check_iphone</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Check OS list of isntalled packages for apple iPhone interface</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># if missing, inform user</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># in either case, update script variables for set_env</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Checking if iPhone interface is installed...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;pkgutil --packages </span>
+        <span class="c7">|</span>
+        <span class="c4">&nbsp;grep -q $IPHONE_PKG</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;check_documents </span>
+        <span class="c8">&#39;
+iphone&#39;
+</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;IPHONE=0</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\n\niPad Interface does not appear to be installed.\n&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;IPHONE=1</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 2</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">check_documents</span>
+        <span class="c0">&nbsp;() {</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This looks to see if the iPad/iPhone interface is *properly* installed</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># because if these files are missing, we cannot proceed.</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;DEV=$1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c8">&quot;
+Checking for </span>
+        <span class="c4">$DEV</span>
+        <span class="c2">&nbsp;WebServer Documents...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ </span>
+        <span class="c7">-f</span>
+        <span class="c4">&nbsp;$DOCDIR/$DEV/enable_ssl.php ] </span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">return</span>
+        <span class="c0">&nbsp;0 &nbsp; &nbsp; &nbsp; </span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+Did not find the </span>
+        <span class="c4">$DEV</span>
+        <span class="c2">&nbsp;WebServer Documents&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+Are you sure the </span>
+        <span class="c4">$DEV</span>
+        <span class="c2">&nbsp;interface is installed?&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;If the interface was previously installed, the documents&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;may have been overwritten, e.g. by an OS Update&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;You may wish to install the interface package again&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">return</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">backup_httpd</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Self explanatory, really, but we need to keep an unaltered copy of this file just in case</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;Backing up httpd.conf...&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo cp $APACHE_DIR/httpd.conf $APACHE_DIR/httpd.conf.default</span>
+        <span class="c7">;</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;OK.&quot;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">return</span>
+        <span class="c0">&nbsp;0</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nError backing up httpd.conf&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+Perhaps we do not have sudo privileges?&quot;
+</span>
+        <span class="c0">.</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">enable_ssl</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Not to be confused with actually running enable_ssl.php in the finalize_ssl function</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Poor choice of name, but what are you gonna do</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This simply uncomments the ssl_module line in httpd.conf</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Enabling Apache SSL Module...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo sed -i .bak -e </span>
+        <span class="c8">&#39;
+/ssl_module/s/^#*//g&#39;
+</span>
+        <span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nCould not enable ssl_module in httpd.conf&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">enable_php</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This function will attempt to determine whether we are working with PHP5 (&lt;
+10.12) or PHP7 (&gt;
+=10.12)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># We will use this determination again later, when looking in php.ini for the mysql socket</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Then, we uncomment the php$_module line in httpd.conf</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Enabling PHP in httpd.conf...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;grep -q php5_module $APACHE_DIR/httpd.conf</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Appears to be PHP5/Sierra&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;PHP=5</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo sed -i .bak -e </span>
+        <span class="c8">&#39;
+/php5_module/s/^#*//g&#39;
+</span>
+        <span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+Failed to enable php5_module in httpd.conf&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;grep -q php7_module $APACHE_DIR/httpd.conf</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Appears to PHP7/High Sierra+&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;PHP=7</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo sed -i .bak -e </span>
+        <span class="c8">&#39;
+/php7_module/s/^#*//g&#39;
+</span>
+        <span class="c4">&nbsp;$APACHE_DIR/httpd.conf</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+Failed to enable php7_module in httpd.conf&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+Failed to enable PHP in httpd.conf&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">backup_php</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Self explanatory backing up of php.ini</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This is technically redundant as the subsequent use of &#39;
+sed -i .bak&#39;
+ will create more backups</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># But this will be an untouched backup, the &#39;
+sed&#39;
+s will overwrite their own backups afaik</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Backing up php.ini...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo cp $PHPFILE $PHPFILE.default</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nError backing up php.ini&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Perhaps we do not have sudo privileges?&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">fetch_timezone</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Attempt to automatically determine timezone from system</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;TIMEZONE=</span>
+        <span class="c8">$(sudo systemsetup -gettimezone </span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;awk -F &quot;
+ &quot;
+ &#39;
+{print $3}&#39;
+)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+Script detected </span>
+        <span class="c12">\&quot;
+</span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c12">\&quot;
+</span>
+        <span class="c2">&nbsp;as the system timezone. Is this correct? (Y/N)&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">read</span>
+        <span class="c0">&nbsp;ENTRY</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">while</span>
+        <span class="c4">&nbsp;[ </span>
+        <span class="c7">-z</span>
+        <span class="c4">&nbsp;$ENTRY ]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">do</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Please answer Y/N&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">read</span>
+        <span class="c0">&nbsp;ENTRY</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;ENTRY = </span>
+        <span class="c8">$(echo &quot;
+</span>
+        <span class="c4">$ENTRY</span>
+        <span class="c8">&quot;
+ </span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;tr &#39;
+[:upper:]&#39;
+ &#39;
+[:lower:]&#39;
+)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ $ENTRY </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+y&#39;
+</span>
+        <span class="c4">&nbsp;] </span>
+        <span class="c7">||</span>
+        <span class="c4">&nbsp;[ $ENTRY </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+yes&#39;
+</span>
+        <span class="c4">&nbsp;]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span>
+        <span class="c2">&#39;
+y&#39;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5 c15">break</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;[ $ENTRY </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+n&#39;
+</span>
+        <span class="c4">&nbsp;] </span>
+        <span class="c7">||</span>
+        <span class="c4">&nbsp;[ $ENTRY </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+no&#39;
+</span>
+        <span class="c4">&nbsp;]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span>
+        <span class="c2">&#39;
+n&#39;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5 c15">break</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;ENTRY=</span>
+        <span class="c2">&quot;
+&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">done</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ $ENTRY </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+n&#39;
+</span>
+        <span class="c4">&nbsp;]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Please type in a custom timezone to use.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+If you are unsure, a list can be found at:&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+ &nbsp; &nbsp; https://www.php.net/manual/en/timezones.php&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Your timezone SHOULD NOT INCLUDE QUOTES and should be in the format&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+ &nbsp; &nbsp; Country/City&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+For example, America/Chicago&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">read</span>
+        <span class="c0">&nbsp;TIMEZONE</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">while</span>
+        <span class="c4">&nbsp;[ </span>
+        <span class="c7">-z</span>
+        <span class="c4">&nbsp;$TIMEZONE ]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">do</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Please enter the timezone without quotes&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">read</span>
+        <span class="c0">&nbsp;TIMEZONE</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">done</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+Proceeding with timezone </span>
+        <span class="c12">\&quot;
+</span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c12">\&quot;
+</span>
+        <span class="c2">&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;TIMEZONE=</span>
+        <span class="c12">\&quot;
+</span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c12 c15">\&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">setSocket7</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span>
+        <span class="c7">&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+pdo_mysql.default_socket=/tmp/mysql.sock&#39;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;sudo mv tempfile $PHPFILE</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">setSocket5</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span>
+        <span class="c7">&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&#39;
+mysql.default_socket=/tmp/mysql.sock&#39;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;sudo mv tempfile $PHPFILE</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">setTimezone</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;head -n $LINE $PHPFILE </span>
+        <span class="c7">&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+date.timezone = </span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c8">&quot;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;tail -n $LINE2 $PHPFILE </span>
+        <span class="c7">&gt;
+&gt;
+</span>
+        <span class="c0">&nbsp;tempfile</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;sudo sudo mv tempfile $PHPFILE</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">update_php</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># This is my goofy workaround for setting the default socket and timezone</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># because I spent a stupid amount of time trying to get &#39;
+sed&#39;
+ to play nice with</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># quotes and slashes but had zero luck so here&#39;
+s my silly way of dealing with it</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># first, we count how many lines are in php.ini</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LC=</span>
+        <span class="c8">$(wc -l </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c8">&nbsp;</span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;awk -F &quot;
+ &quot;
+ &#39;
+{print $1}&#39;
+)</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># then we find the line number that contains the socket assignment</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Finding mysql.default_socket in php.ini...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LINE=</span>
+        <span class="c8">$(grep -n -m 1 &#39;
+mysql.default_socket=&#39;
+ </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c8">&nbsp;</span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;awk -F &quot;
+:&quot;
+ &#39;
+{print $1}&#39;
+)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># we set this variable to be the number of lines after the above line</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LINE2=</span>
+        <span class="c8">$((LC</span>
+        <span class="c7">-</span>
+        <span class="c2">LINE))</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># then, counterintutively, we comment out that line (we do not care if it already is,</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># because if we prepend a second semicolon, php is not going to care)</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;sudo sed -i .bak -e </span>
+        <span class="c8">&#39;
+/mysql.default_socket=/s/^/;
+/g&#39;
+</span>
+        <span class="c0">&nbsp;$PHPFILE</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># Now for the goofy bit. We are going to cut the php.ini file at the</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># mysql.default_socket line that we just commented. Then, we will write a whole new line</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># that has the correct socket value. Then, we will append the remainder of the php.ini file</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># back to that file, so that the resulting file is a complete php.ini with the correct value</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># For exception handling, using a function for these steps so they can be tested with ifs</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Setting default socket for mysql...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;PHP=7</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;setSocket7</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nError setting mysql socket. You can proceed manually&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+by appending &#39;
+/tmp/mysql.sock&#39;
+ to the end of line </span>
+        <span class="c4">$LINE</span>
+        <span class="c2">&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+in </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">, then also setting the timezone and running&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+sudo php ~/enable_ssl.php&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;PHP=5</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;setSocket5</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nError setting mysql socket. You can proceed manually&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+by appending &#39;
+/tmp/mysql.sock&#39;
+ to the end of line </span>
+        <span class="c4">$LINE</span>
+        <span class="c2">&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+in </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">, then also setting the timezone and running&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+sudo php ~/enable_ssl.php&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nProblem setting default socket. You might want to proceed manually&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+To do so, open </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c8">&nbsp;by either running &#39;
+sudo nano </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">&#39;
+&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+sudo code </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">&nbsp;(if using VS Code)&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+or sudo open </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">&nbsp;(to use system default editor)&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="comment"># repeating the process for the timezone</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+Finding date.timezone in php.ini...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LINE=</span>
+        <span class="c8">$(grep -n -m 1 &#39;
+date.timezone =&#39;
+ </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c8">&nbsp;</span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;awk -F &quot;
+:&quot;
+ &#39;
+{print $1}&#39;
+)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LC=</span>
+        <span class="c8">$(wc -l </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c8">&nbsp;</span>
+        <span class="c7">|</span>
+        <span class="c2">&nbsp;awk -F &quot;
+ &quot;
+ &#39;
+{print $1}&#39;
+)</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;LINE2=</span>
+        <span class="c8">$((LC</span>
+        <span class="c7">-</span>
+        <span class="c2">LINE))</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;sudo sed -i .bak -e </span>
+        <span class="c8">&#39;
+/date.timezone =/s/^/;
+/g&#39;
+</span>
+        <span class="c0">&nbsp;$PHPFILE</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c8">&quot;
+Setting Timezone as </span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c2">&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;setTimezone</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c7">then</span>
+        <span class="c0">&nbsp; &nbsp;</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nOK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nProblem setting time zone. You might want to proceed manually&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c8">&quot;
+To do so, append </span>
+        <span class="c4">$TIMEZONE</span>
+        <span class="c8">&nbsp;to line </span>
+        <span class="c4">$LINE</span>
+        <span class="c8">&nbsp;in </span>
+        <span class="c4">$PHPFILE</span>
+        <span class="c2">&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+then proceed with sudo ~/enable_ssl.php&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">restart_apache</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-n </span>
+        <span class="c2">&quot;
+Restarting Apache...&quot;
+</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo apachectl restart</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+OK.&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nProblem encountered restarting Apache. You might want to try\nrestarting it manually&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+by running:&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+sudo apachectl restart&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">finalize_ssl</span>
+        <span class="c0">&nbsp;() {</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;DEV=$1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\nLaunching enable_ssl.php...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;sudo php $DOCDIR/$DEV/enable_ssl.php</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+SSL Enabled&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">else</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Running php enable_ssl.php failed&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+You can try and run it manually. All configuration up to this point&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+has been saved. Default files are stored next to their original locations&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+with either *.default or *.bak suffixes&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Exiting...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;</span>
+        <span class="c5">exit</span>
+        <span class="c0">&nbsp;1</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5 c11">function</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c10">test_interface</span>
+        <span class="c0">&nbsp;{</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\n\nAt this point the interface should be configured, as long as nothing went wrong&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+Attempting to open the interface...&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp;sleep 5</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ $IPAD </span>
+        <span class="c7">=</span>
+        <span class="c4">&nbsp;0 ] </span>
+        <span class="c7">&amp;
+&amp;
+</span>
+        <span class="c4">&nbsp;[ $IPHONE </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;0 ]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span>
+        <span class="c2">&quot;
+http://localhost/ipad&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">&nbsp; &nbsp; &nbsp; &nbsp;sleep 3</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span>
+        <span class="c2">&quot;
+http://localhost/iphone&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;[ $IPAD </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;0 ] </span>
+        <span class="c7">&amp;
+&amp;
+</span>
+        <span class="c4">&nbsp;[ $IPHONE </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;1 ]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span>
+        <span class="c2">&quot;
+http://localhost/ipad&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;[ $IPAD </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;1 ] </span>
+        <span class="c7">&amp;
+&amp;
+</span>
+        <span class="c4">&nbsp;[ $IPHONE </span>
+        <span class="c7">==</span>
+        <span class="c4">&nbsp;0 ]</span>
+        <span class="c7">;
+</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp; &nbsp; &nbsp;open </span>
+        <span class="c2">&quot;
+http://localhost/iphone&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;</span>
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1">
+        <span class="c0">}</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Actual execution sequence below this line</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># using `sudo echo` in an attempt to get superuser rights and keep them through the script</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># note: when running via curl from the utils server, the wrapper script should have already</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># handled this.</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c4">sudo </span>
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c2">&quot;
+apple iPad Interface Configuration Script&quot;
+</span>
+    </p>
+    <p class="c1">
+        <span class="c5">echo</span>
+        <span class="c4">&nbsp;-e </span>
+        <span class="c2">&quot;
+\n&quot;
+</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># first things first, we&#39;
+re gonna check to see if the iPad interface is installed</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># if it is not, we will open apple.com/download and put a message in the terminal</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">set_env</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Now, we&#39;
+re gonna start actually setting it up</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">backup_httpd</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># This is where the fun begins...</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># We&#39;
+re gonna start uncommenting lines from the config files</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Becuase I am a super good programmer, I am using variables for the lines to uncomment</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># First up is httpd.conf</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">enable_ssl</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># in this block, we will also set a variable to determine whether or not we are using</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># PHP 5 (&lt;
+Sierra) or PHP 7 (&gt;
+Sierra). This is a surprise tool that will help us later</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">enable_php</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Now on to php.ini</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">backup_php</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Now we need to actually update php.ini</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">fetch_timezone</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">update_php</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Now we need to restart Apache</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="c0">restart_apache</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0">
+</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># Run enable_ssl.php to wrap things up</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="c7">if</span>
+        <span class="c4">&nbsp;[ $IPAD</span>
+        <span class="c7">==</span>
+        <span class="c4">0 ] </span>
+        <span class="c7">;</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;finalize_ssl </span>
+        <span class="c2">&#39;ipad&#39;</span>
+    </p>
+    <p class="c1">
+        <span class="c7">elif</span>
+        <span class="c4">&nbsp;[ $IPHONE</span>
+        <span class="c7">==</span>
+        <span class="c4">0 ] </span>
+        <span class="c7">;</span>
+        <span class="c4">&nbsp;</span>
+        <span class="c6">then</span>
+    </p>
+    <p class="c1">
+        <span class="c4">&nbsp; &nbsp;finalize_ssl </span>
+        <span class="c2">&#39;iphone&#39;</span>
+    </p>
+    <p class="c1">
+        <span class="c6">fi</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="comment"># That SHOULD be it.</span>
+    </p>
+    <p class="c1">
+        <span class="comment"># TODO: Ask for and update iPad docs with DB name (if not apple)</span>
+    </p>
+    <p class="c1 c3">
+        <span class="c0"></span>
+    </p>
+    <p class="c1">
+        <span class="c0">test_interface</span>
+    </p>
+    <p class="c3 c16">
+        <span class="c14"></span>
+    </p>
+</body>
+</html>

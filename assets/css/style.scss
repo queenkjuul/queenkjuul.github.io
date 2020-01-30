@@ -6,6 +6,12 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|VT323|Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
+
+@font-face{
+    font-family: 'Terminus';
+    src: url(http://juliehill.codes/assets/Terminus.ttf)
+}
+
 :root {
     --pan-layout-left-background-color: rgba(168, 77, 150, 0.6);
     --pan-layout-left-background-image: url(http://juliehill.rocks/uploads/2020/01/chi.jpg);
@@ -31,7 +37,7 @@ a {
 }
 
 code {
-    font-family: 'VT323', monospace;
+    font-family: 'Terminus', monospace;
 }
 
 .pan-layout-content {
