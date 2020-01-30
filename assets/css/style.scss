@@ -99,11 +99,14 @@ code {
     h2 {
         background-color: rgb(224, 102, 200);
         color: #fff;
+        font-size: 1.5rem;
     }
 
     h3 {
-        font-size: 1.2rem;
-        color: rgb(224, 102, 200);
+        font-size: 1.4rem;
+        color: #fff;
+        border-bottom: 1px solid rgb(224,102,200);
+
     }
 
     .tagline {
