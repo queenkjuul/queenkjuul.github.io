@@ -3,6 +3,7 @@
 
 @import "panthera-jekyll";
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
 :root {
     --pan-layout-left-background-color: rgba(168, 77, 150, 0.6);
@@ -28,6 +29,9 @@ a {
     }
 }
 
+code {
+    font-family: 'VT323', monospace;
+}
 
 .pan-layout-content {
     background-color: #333;
