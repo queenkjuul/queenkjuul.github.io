@@ -1,8 +1,9 @@
 --- 
 --- 
-
+// fonts:
+// roboto, roboto condensed, vt323, quicksand
 @import "panthera-jekyll";
-@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|VT323|Quicksand&display=swap');
 @import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
 :root {
@@ -11,7 +12,7 @@
 }
 
 html, body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Quicksand', 'Roboto', sans-serif;
     background-color: #333;
     color: #fff;
 }
@@ -96,6 +97,7 @@ code {
         text-align: center;
         border-bottom: none;
         font-size: 2rem;
+        font-family: 'Roboto Condensed', sans-serif;
     }
 
     h2 {
@@ -103,12 +105,15 @@ code {
         color: rgb(224, 102, 200);
         font-size: 1.5rem;
         text-align: center;
+        font-family: 'Roboto Condensed', sans-serif;
+
     }
 
     h3 {
         font-size: 1.4rem;
         color: rgb(85, 207, 255);
         border-bottom: 1px solid rgb(224,102,200);
+        font-family: 'Roboto Condensed', sans-serif;
 
     }
 
