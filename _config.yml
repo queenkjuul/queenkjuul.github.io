@@ -19,9 +19,9 @@ menu:
     icon: fas fa-guitar
   - text: the melon company
     link: https://themeloncompany.bandcamp.com/releases
-  - text: juliehill.rocks
-    link: http://juliehill.rocks
-    icon: fas fa-external-link-alt
+#  - text: juliehill.rocks
+#    link: http://juliehill.rocks
+#    icon: fas fa-external-link-alt
 
 social_icons:
   - name: GitHub
