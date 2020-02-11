@@ -1,9 +1,9 @@
 --- 
 --- 
 // fonts:
-// roboto, Bebas Neue, vt323, quicksand
+// roboto, Roboto Condensed, vt323, quicksand
 @import "panthera-jekyll";
-@import url('https://fonts.googleapis.com/css?family=Roboto|Bebas+Neue|VT323&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|VT323&display=swap');
 @import url('https://fonts.googleapis.com/css?family=VT323&display=swap');
 
 @font-face{
@@ -62,14 +62,14 @@ code {
 .pan-layout-header {
     background-color: #666;
     color: rgb(85, 207, 255);
-    font-family: 'Bebas Neue', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 .pan-layout-left {
     color: rgb(85, 207, 255);
 
     &__top {
-        font-family: 'Bebas Neue', 'Roboto', sans-serif;
+        font-family: 'Roboto Condensed', 'Roboto', sans-serif;
     }
 
     &__middle {
@@ -109,7 +109,7 @@ code {
         text-align: center;
         border-bottom: none;
         font-size: 2rem;
-        font-family: 'Bebas Neue', sans-serif;
+        font-family: 'Roboto Condensed', sans-serif;
     }
 
     h2 {
@@ -117,7 +117,7 @@ code {
         color: rgb(224, 102, 200);
         font-size: 1.5rem;
         text-align: center;
-        font-family: 'Bebas Neue', sans-serif;
+        font-family: 'Roboto Condensed', sans-serif;
 
     }
 
@@ -125,7 +125,7 @@ code {
         font-size: 1.4rem;
         color: rgb(85, 207, 255);
         border-bottom: 1px solid rgb(224,102,200);
-        font-family: 'Bebas Neue', sans-serif;
+        font-family: 'Roboto Condensed', sans-serif;
 
     }
 
