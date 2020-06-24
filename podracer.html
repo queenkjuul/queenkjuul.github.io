@@ -32,15 +32,32 @@
 <p>Network name is <code>queenkjuul</code>
 password is in the discord server</p>
 <h2 id="download-the-patch">download the patch</h2>
-<p>it is available <a href="../assets/Podracer_Patch.zip">here</a></p>
+<p>it is available <a href="assets/Podracer_Patch.zip">here</a></p>
 <h2 id="run-the-patch">run the patch</h2>
 <ol>
 <li>Copy setup.bat and SWEP1RCR.EXE.patched to your game folder (should be C:\GOG Games\STAR WARS Racer)</li>
 <li>run setup.bat</li>
 <li>select your monitor's resolution in the first window</li>
 <li>select &quot;Famatech RadminVPN Ethernet Adapter&quot; at the top of the second window</li>
-<li>if you're ready to play, press any key. if you're not, close the window.</li>
-<li>yay!</li>
+</ol>
+<h2 id="create-a-shortcut">create a shortcut</h2>
+<p>the game was written in the days of dialup, so we need to give tell the game to use more bandwidth or else movement online will be all jerky</p>
+<p>the easiest way to do this is to create a shortcut which will tell the game to run with different options.</p>
+<ol>
+<li>
+<p>right-click SWEP1RCR.EXE and select &quot;Create Shortcut&quot;</p>
+</li>
+<li>
+<p>right-click the new &quot;SWEP1RCR.EXE - Shortcut&quot; file and select Properties</p>
+</li>
+<li>
+<p>in the &quot;Target&quot; box, add <code>-nut 15</code> to the end of the line. You need a space after the .EXE part, and put it inside the quotes. Mine reads like:</p>
+<p><code>&quot;C:\GOG Games\STAR WARS Racer\SWEP1RCR.EXE -nut 15&quot;</code></p>
+</li>
+</ol>
+<p><img src="assets/shortcut.png" alt=""></p>
+<ol start="4">
+<li>Move that shortcut file to the desktop, stick it in your startmenu, whatever you wanna do. Make sure you use that shortcut when launching the game.</li>
 </ol>
 
     </body>

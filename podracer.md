@@ -13,7 +13,7 @@ password is in the discord server
 
 ## download the patch
 
-it is available [here](../assets/Podracer_Patch.zip)
+it is available [here](assets/Podracer_Patch.zip)
 
 ## run the patch
 
@@ -21,5 +21,19 @@ it is available [here](../assets/Podracer_Patch.zip)
 2. run setup.bat
 3. select your monitor's resolution in the first window
 4. select "Famatech RadminVPN Ethernet Adapter" at the top of the second window
-5. if you're ready to play, press any key. if you're not, close the window. 
-6. yay!
+
+## create a shortcut
+
+the game was written in the days of dialup, so we need to give tell the game to use more bandwidth or else movement online will be all jerky
+
+the easiest way to do this is to create a shortcut which will tell the game to run with different options. 
+
+1. right-click SWEP1RCR.EXE and select "Create Shortcut"
+2. right-click the new "SWEP1RCR.EXE - Shortcut" file and select Properties
+3. in the "Target" box, add `-nut 15` to the end of the line. You need a space after the .EXE part, and put it inside the quotes. Mine reads like: 
+   
+    ```"C:\GOG Games\STAR WARS Racer\SWEP1RCR.EXE -nut 15"```
+
+![](assets/shortcut.png)
+
+4. Move that shortcut file to the desktop, stick it in your startmenu, whatever you wanna do. Make sure you use that shortcut when launching the game. 
