@@ -30,9 +30,9 @@ the easiest way to do this is to create a shortcut which will tell the game to r
 
 1. right-click SWEP1RCR.EXE and select "Create Shortcut"
 2. right-click the new "SWEP1RCR.EXE - Shortcut" file and select Properties
-3. in the "Target" box, add `-nut 15` to the end of the line. You need to put it at the very end, outside the quotes. Mine reads like: 
+3. in the "Target" box, add `-nut 5` to the end of the line. You need to put it at the very end, outside the quotes. Mine reads like: 
    
-    ```"C:\GOG Games\STAR WARS Racer\SWEP1RCR.EXE" -nut 15```
+    ```"C:\GOG Games\STAR WARS Racer\SWEP1RCR.EXE" -nut 5```
 
 ![](assets/shortcut.png)
 
