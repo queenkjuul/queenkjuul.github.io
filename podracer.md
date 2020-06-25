@@ -46,16 +46,27 @@ the easiest way to do this is to create a shortcut which will tell the game to r
 
 I have my control mapping file [here](assets/current_control.map.zip). Extract it and replace the `(game folder)/Data/config/current/current_control.map` file there. My controls are as follows (x360 controller)
 
+
 A: Boost
+
 B: Break
+
 X: Slide
+
 Y: Repair
+
 L1: Roll Left
+
 R1: Roll Right
+
 L2: Brake
+
 R2: Thrust
+
 Dpad Up: Camera
+
 Dpad Down: Look Back
+
 Dpad Left: Taunt
 
 
