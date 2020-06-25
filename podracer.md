@@ -61,3 +61,4 @@ Dpad Left: Taunt
 
 TURN THE VOLUME DOWN IN WINDOWS MIXER FIRST it's crazy stupid loud
 
+If your camera gets stuck looking backwards, hit Tab
