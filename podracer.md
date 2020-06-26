@@ -1,5 +1,14 @@
 # Playing Podracer on PC with queenkjuul
 
+- [Playing Podracer on PC with queenkjuul](#playing-podracer-on-pc-with-queenkjuul)
+  - [RadminVPN](#radminvpn)
+  - [download the patch](#download-the-patch)
+  - [run the patch](#run-the-patch)
+  - [create a shortcut](#create-a-shortcut)
+  - [Volume](#volume)
+  - [Backwards Camera](#backwards-camera)
+  - [Controls (x360)](#controls-x360)
+
 ## RadminVPN
 
 First off you gotta install the Radmin VPN. 
@@ -42,7 +51,17 @@ the easiest way to do this is to create a shortcut which will tell the game to r
 
 4. Move that shortcut file to the desktop, stick it in your startmenu, whatever you wanna do. Make sure you use that shortcut when launching the game. 
 
-## Tips
+## Volume
+
+TURN THE VOLUME DOWN IN WINDOWS MIXER FIRST it's crazy stupid loud
+
+Seriously it's crazy loud. You want it like half as loud as your discord n things. That's why the -i option to skip cutscenes is good. 
+
+## Backwards Camera
+
+if your camera is stuck backwards, hit Tab
+
+## Controls (x360)
 
 I have my control mapping file [here](assets/current_control.zip). Extract it and replace the `(game folder)/Data/config/current/current_control.map` file there. My controls are as follows (x360 controller)
 
@@ -68,8 +87,3 @@ Dpad Up: Camera
 Dpad Down: Look Back
 
 Dpad Left: Taunt
-
-
-TURN THE VOLUME DOWN IN WINDOWS MIXER FIRST it's crazy stupid loud
-
-If your camera gets stuck looking backwards, hit Tab
